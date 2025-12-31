@@ -28,7 +28,10 @@ using namespace Rooted;
 using namespace std;
 
 template <bool PrintTime, bool IsLast>
-Scope<PrintTime> Block::Print(
+Scope<PrintTime> print_impl(
+    DrawPipe &draw_pipe,
+    int &lines,
+    const Celery::Trait::VeryLarge depth,
     const Celery::Str::External &desc
 )
 {
@@ -66,24 +69,28 @@ Scope<PrintTime> Block::Print(
     return res;
 }
 
-// Template specialization so the linker can find the correct
-// symbols
-template
-Scope<true> Block::Print<true, true>(
-    const Celery::Str::External &
-);
+TimedScope Block::TimedPrint(const Celery::Str::External &desc)
+{
+    auto scope = print_impl<true, false>(
+        draw_pipe,
+        lines,
+        depth,
+        desc
+    );
 
-template
-Scope<true> Block::Print<true, false>(
-    const Celery::Str::External &
-);
+    last_scope = scope;
+    return scope;
+}
 
-template
-Scope<false> Block::Print<false, true>(
-    const Celery::Str::External &
-);
+SimpleScope Block::Print(const Celery::Str::External &desc)
+{
+    auto scope = print_impl<false, false>(
+        draw_pipe,
+        lines,
+        depth,
+        desc
+    );
 
-template
-Scope<false> Block::Print<false, false>(
-    const Celery::Str::External &
-);
+    last_scope = scope;
+    return scope;
+}
