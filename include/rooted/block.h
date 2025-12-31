@@ -57,8 +57,8 @@ namespace Rooted
             DrawPipe &
         );
 
-        [[nodiscard]] TimedScope TimedPrint(const Celery::Str::External &desc);
-        [[nodiscard]] SimpleScope Print(const Celery::Str::External &desc);
+        TimedScope TimedPrint(const Celery::Str::External &desc);
+        SimpleScope Print(const Celery::Str::External &desc);
         [[nodiscard]] Block Nest() const;
         void Done() const;
 
