@@ -38,6 +38,18 @@ namespace Rooted
         Celery::Trait::VeryLarge depth;
         VariantScope last_scope;
 
+        template<ScopeType Type>
+        using ConditionalScope = std::conditional_t<
+            Type == ScopeType::Timed,
+            TimedScope,
+            SimpleScope
+        >;
+
+        template<ScopeType Type, ScopeOrder>
+        ConditionalScope<Type> BasePrint(
+            const Celery::Str::External &
+        );
+
     public:
         Block(
             int &,
