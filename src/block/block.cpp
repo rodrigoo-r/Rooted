@@ -22,8 +22,12 @@
 #include "rooted/block.h"
 
 using namespace Rooted;
+using namespace Celery;
 
-Block::Block(int &lines_ref, const int depth_const) :
+Block::Block(
+    int &lines_ref,
+    const Trait::VeryLarge depth_const
+) :
     lines(lines_ref),
     depth(depth_const)
 {}

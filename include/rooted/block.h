@@ -32,10 +32,10 @@ namespace Rooted
     {
         Celery::Array::Vector<bool> draw_pipe;
         int &lines; // Passed by reference from Factory
-        int depth;
+        Celery::Trait::VeryLarge depth;
 
     public:
-        Block(int &, int);
+        Block(int &, Celery::Trait::VeryLarge);
 
         template<bool PrintTime, bool IsLast>
         Scope<PrintTime> Print(Celery::Str::External &) const;
