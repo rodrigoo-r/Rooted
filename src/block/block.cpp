@@ -33,13 +33,9 @@ Block::Block(
     lines(lines_ref),
     depth(depth_const)
 {
-    // Ensure draw_pipe is deep enough
-    if (depth > 0)
+    const auto remaining = depth - draw_pipe.Size();
+    for (Trait::VeryLarge i = 0; i < remaining; ++i)
     {
-        draw_pipe.Resize(depth);
-        for (auto i = 0; i < depth; ++i)
-        {
-            draw_pipe[i] = false;
-        }
+        draw_pipe.PushBack(false);
     }
 }
