@@ -34,15 +34,8 @@ namespace Rooted
         DrawPipe &draw_pipe;
         Celery::Trait::VeryLarge depth;
 
-        template<ScopeType Type>
-        using ConditionalScope = std::conditional_t<
-            Type == ScopeType::Timed,
-            TimedScope,
-            SimpleScope
-        >;
-
-        template<ScopeType Type, ScopeOrder>
-        ConditionalScope<Type> BasePrint(
+        template<ScopeOrder>
+        Scope BasePrint(
             const Celery::Str::External &
         );
 
@@ -53,27 +46,14 @@ namespace Rooted
         );
 
         template <ScopeOrder Order>
-        TimedScope TimedPrint(const Celery::Str::External &desc);
+        Scope Print(const Celery::Str::External &desc);
 
-        template <ScopeOrder Order>
-        SimpleScope Print(const Celery::Str::External &desc);
-
-        TimedScope TimedBody(const Celery::Str::External &desc)
-        {
-            return TimedPrint<ScopeOrder::Body>(desc);
-        }
-
-        TimedScope TimedLast(const Celery::Str::External &desc)
-        {
-            return TimedPrint<ScopeOrder::Last>(desc);
-        }
-
-        SimpleScope Body(const Celery::Str::External &desc)
+        Scope Body(const Celery::Str::External &desc)
         {
             return Print<ScopeOrder::Body>(desc);
         }
 
-        SimpleScope Last(const Celery::Str::External &desc)
+        Scope Last(const Celery::Str::External &desc)
         {
             return Print<ScopeOrder::Last>(desc);
         }
