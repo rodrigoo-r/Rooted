@@ -30,4 +30,10 @@ Block::Block(
 ) :
     lines(lines_ref),
     depth(depth_const)
-{}
+{
+    // Ensure draw_pipe is deep enough
+    if (draw_pipe.Size() < depth)
+    {
+        draw_pipe.Resize(depth);
+    }
+}
