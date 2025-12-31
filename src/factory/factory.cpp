@@ -26,6 +26,6 @@ using namespace Rooted;
 Block Factory::AddBlock()
 {
     Block b(lines, 0, draw_pipe);
-    draw_pipe.PushBack(false);
+    draw_pipe.PushBack(ScopeOrder::Body);
     return b;
 }
