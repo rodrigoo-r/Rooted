@@ -31,6 +31,6 @@ Block Block::Nest() const
         depth + 1,
         draw_pipe
     );
-    draw_pipe[depth] = false;
+        draw_pipe[depth] = ScopeOrder::Body;
     return b;
 }
