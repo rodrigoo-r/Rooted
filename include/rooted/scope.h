@@ -25,6 +25,18 @@
 
 namespace Rooted
 {
+    enum class ScopeType
+    {
+        Timed,
+        Simple
+    };
+
+    enum class ScopeOrder
+    {
+        Body,
+        Last
+    };
+
     struct IScope
     {
         int line;
