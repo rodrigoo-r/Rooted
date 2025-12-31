@@ -30,12 +30,18 @@ namespace Rooted
 {
     class Block
     {
-        Celery::Array::Vector<bool> draw_pipe;
+        using DrawPipe = Celery::Array::Vector<bool>;
+
+        DrawPipe &draw_pipe;
         int &lines; // Passed by reference from Factory
         Celery::Trait::VeryLarge depth;
 
     public:
-        Block(int &, Celery::Trait::VeryLarge);
+        Block(
+            int &,
+            Celery::Trait::VeryLarge,
+            DrawPipe &
+        );
 
         template<bool PrintTime, bool IsLast>
         Scope<PrintTime> Print(const Celery::Str::External &desc);
