@@ -38,7 +38,8 @@ namespace Rooted
         Block(int &, Celery::Trait::VeryLarge);
 
         template<bool PrintTime, bool IsLast>
-        Scope<PrintTime> Print(Celery::Str::External &) const;
+        Scope<PrintTime> Print(const Celery::Str::External &desc);
+        [[nodiscard]] Block Nest() const;
 
         void Done() const
         {
