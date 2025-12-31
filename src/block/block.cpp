@@ -35,5 +35,9 @@ Block::Block(
     if (depth > 0)
     {
         draw_pipe.Resize(depth);
+        for (auto i = 0; i < depth; ++i)
+        {
+            draw_pipe[i] = false;
+        }
     }
 }
