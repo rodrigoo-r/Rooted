@@ -27,18 +27,14 @@
 using namespace Rooted;
 using namespace std;
 
-template <bool PrintTime, bool IsLast>
-Scope<PrintTime> print_impl(
-    DrawPipe &draw_pipe,
-    int &lines,
-    const Celery::Trait::VeryLarge depth,
+template <ScopeType Type, ScopeOrder Order>
+Block::ConditionalScope<Type> Block::BasePrint(
     const Celery::Str::External &desc
 )
 {
-    using Result = Scope<PrintTime>;
+    using Result = ConditionalScope<Type>;
 
     Result res;
-    res.line = ++lines;
     res.desc = desc;
 
     // Print branch
@@ -46,51 +42,83 @@ Scope<PrintTime> print_impl(
     {
         for (int i = 0; i < depth - 1; ++i)
         {
-            if (draw_pipe[i])
+            if (draw_pipe[i] == ScopeOrder::Last)
                 Celery::Io::Print("│   ");
             else
                 Celery::Io::Print("    ");
         }
 
-        if constexpr (IsLast)
+        if constexpr (Order == ScopeOrder::Last)
             Celery::Io::Print("└── ");
         else
             Celery::Io::Print("├── ");
     }
 
-    Celery::Io::Print(desc, '\n');
+    Celery::Io::Println(desc);
 
     // Update pipe state for this depth
     if (depth > 0)
     {
-        draw_pipe[depth - 1] = !IsLast;
+        draw_pipe[depth - 1] =
+            Order == ScopeOrder::Last ?
+                ScopeOrder::Body :
+                ScopeOrder::Last;
     }
 
     return res;
 }
 
+template <ScopeOrder Order>
 TimedScope Block::TimedPrint(const Celery::Str::External &desc)
 {
-    auto scope = print_impl<true, false>(
-        draw_pipe,
-        lines,
-        depth,
-        desc
-    );
-
-    last_scope = scope;
-    return scope;
+    return BasePrint<
+        ScopeType::Timed,
+        Order
+    >(desc);
 }
 
+template <ScopeOrder Order>
 SimpleScope Block::Print(const Celery::Str::External &desc)
 {
-    auto scope = print_impl<false, false>(
-        draw_pipe,
-        lines,
-        depth,
-        desc
-    );
-
-    last_scope = scope;
-    return scope;
+    return BasePrint<
+        ScopeType::Simple,
+        Order
+    >(desc);
 }
+
+// Template instantiations
+template TimedScope Block::BasePrint<
+    ScopeType::Timed,
+    ScopeOrder::Body
+>(const Celery::Str::External &);
+
+template TimedScope Block::BasePrint<
+    ScopeType::Timed,
+    ScopeOrder::Last
+>(const Celery::Str::External &);
+
+template SimpleScope Block::BasePrint<
+    ScopeType::Simple,
+    ScopeOrder::Body
+>(const Celery::Str::External &);
+
+template SimpleScope Block::BasePrint<
+    ScopeType::Simple,
+    ScopeOrder::Last
+>(const Celery::Str::External &);
+
+template TimedScope Block::TimedPrint<ScopeOrder::Body>(
+    const Celery::Str::External &
+);
+
+template TimedScope Block::TimedPrint<ScopeOrder::Last>(
+    const Celery::Str::External &
+);
+
+template SimpleScope Block::Print<ScopeOrder::Body>(
+    const Celery::Str::External &
+);
+
+template SimpleScope Block::Print<ScopeOrder::Last>(
+    const Celery::Str::External &
+);
