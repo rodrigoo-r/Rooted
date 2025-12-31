@@ -37,24 +37,34 @@ namespace Rooted
         Last
     };
 
-    struct IScope
+    class IScope
     {
-        int line;
+    protected:
         Celery::Str::External desc;
+
+    public:
+        IScope() = default;
+
+        void Reprint() const
+        {
+            Celery::Io::Println(desc);
+        }
+
+        virtual ~IScope() = default;
     };
 
     template <bool PrintTime>
-    struct Scope;
+    class Scope;
 
     template <>
-    struct Scope<true> : IScope
+    class Scope<true> : public IScope
     {
         std::chrono::high_resolution_clock
             ::time_point start;
     };
 
     template <>
-    struct Scope<false> : IScope
+    class Scope<false> : public IScope
     {};
 
     using TimedScope = Scope<true>;
