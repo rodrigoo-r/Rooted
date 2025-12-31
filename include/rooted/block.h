@@ -31,9 +31,12 @@ namespace Rooted
 {
     class Block
     {
+        using VariantScope = std::variant<TimedScope, SimpleScope>;
+
         DrawPipe &draw_pipe;
         int &lines; // Passed by reference from Factory
         Celery::Trait::VeryLarge depth;
+        VariantScope last_scope;
 
     public:
         Block(
@@ -42,15 +45,10 @@ namespace Rooted
             DrawPipe &
         );
 
-        TimedScope TimedPrint(const Celery::Str::External &desc);
-        SimpleScope Print(const Celery::Str::External &desc);
-
+        [[nodiscard]] TimedScope TimedPrint(const Celery::Str::External &desc);
+        [[nodiscard]] SimpleScope Print(const Celery::Str::External &desc);
         [[nodiscard]] Block Nest() const;
-
-        void Done() const
-        {
-            lines = 0;
-        }
+        void Done() const;
 
         ~Block()
         {
