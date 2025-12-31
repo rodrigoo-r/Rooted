@@ -42,8 +42,9 @@ namespace Rooted
             DrawPipe &
         );
 
-        template<bool PrintTime, bool IsLast>
-        Scope<PrintTime> Print(const Celery::Str::External &desc);
+        TimedScope TimedPrint(const Celery::Str::External &desc);
+        SimpleScope Print(const Celery::Str::External &desc);
+
         [[nodiscard]] Block Nest() const;
 
         void Done() const
