@@ -36,6 +36,6 @@ Block::Block(
     const auto remaining = depth - draw_pipe.Size();
     for (Trait::VeryLarge i = 0; i < remaining; ++i)
     {
-        draw_pipe.PushBack(false);
+        draw_pipe.PushBack(ScopeOrder::Body);
     }
 }
