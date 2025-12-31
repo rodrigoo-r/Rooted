@@ -25,12 +25,10 @@ using namespace Rooted;
 using namespace Celery;
 
 Block::Block(
-    int &lines_ref,
     const Trait::VeryLarge depth_const,
     DrawPipe &draw_pipe_ref
 ) :
     draw_pipe(draw_pipe_ref),
-    lines(lines_ref),
     depth(depth_const)
 {
     const auto remaining = depth - draw_pipe.Size();
