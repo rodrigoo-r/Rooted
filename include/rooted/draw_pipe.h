@@ -22,38 +22,8 @@
 #pragma once
 
 #include <celery/array/vector.h>
-#include <celery/string/external.h>
-
-#include "draw_pipe.h"
-#include "scope.h"
 
 namespace Rooted
 {
-    class Block
-    {
-        DrawPipe &draw_pipe;
-        int &lines; // Passed by reference from Factory
-        Celery::Trait::VeryLarge depth;
-
-    public:
-        Block(
-            int &,
-            Celery::Trait::VeryLarge,
-            DrawPipe &
-        );
-
-        template<bool PrintTime, bool IsLast>
-        Scope<PrintTime> Print(const Celery::Str::External &desc);
-        [[nodiscard]] Block Nest() const;
-
-        void Done() const
-        {
-            lines = 0;
-        }
-
-        ~Block()
-        {
-            Done();
-        }
-    };
+    using DrawPipe = Celery::Array::Vector<bool>;
 }
