@@ -23,7 +23,9 @@
 
 #include <celery/array/vector.h>
 
+#include "scope.h"
+
 namespace Rooted
 {
-    using DrawPipe = Celery::Array::Vector<bool>;
+    using DrawPipe = Celery::Array::Vector<ScopeOrder>;
 }
