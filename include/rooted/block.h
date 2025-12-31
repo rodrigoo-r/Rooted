@@ -31,12 +31,8 @@ namespace Rooted
 {
     class Block
     {
-        using VariantScope = std::variant<TimedScope, SimpleScope>;
-
         DrawPipe &draw_pipe;
-        int &lines; // Passed by reference from Factory
         Celery::Trait::VeryLarge depth;
-        VariantScope last_scope;
 
         template<ScopeType Type>
         using ConditionalScope = std::conditional_t<
@@ -52,19 +48,38 @@ namespace Rooted
 
     public:
         Block(
-            int &,
             Celery::Trait::VeryLarge,
             DrawPipe &
         );
 
+        template <ScopeOrder Order>
         TimedScope TimedPrint(const Celery::Str::External &desc);
-        SimpleScope Print(const Celery::Str::External &desc);
-        [[nodiscard]] Block Nest() const;
-        void Done() const;
 
-        ~Block()
+        template <ScopeOrder Order>
+        SimpleScope Print(const Celery::Str::External &desc);
+
+        TimedScope TimedBody(const Celery::Str::External &desc)
         {
-            Done();
+            return TimedPrint<ScopeOrder::Body>(desc);
         }
+
+        TimedScope TimedLast(const Celery::Str::External &desc)
+        {
+            return TimedPrint<ScopeOrder::Last>(desc);
+        }
+
+        SimpleScope Body(const Celery::Str::External &desc)
+        {
+            return Print<ScopeOrder::Body>(desc);
+        }
+
+        SimpleScope Last(const Celery::Str::External &desc)
+        {
+            return Print<ScopeOrder::Last>(desc);
+        }
+
+        [[nodiscard]] Block Nest();
+
+        ~Block() = default;
     };
 }
