@@ -27,7 +27,6 @@ namespace Rooted
     class Factory
     {
         DrawPipe draw_pipe;
-        int lines = 0;
 
     public:
         Factory() = default;
