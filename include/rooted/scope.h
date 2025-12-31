@@ -44,4 +44,7 @@ namespace Rooted
     template <>
     struct Scope<false> : IScope
     {};
+
+    using TimedScope = Scope<true>;
+    using SimpleScope = Scope<false>;
 }
