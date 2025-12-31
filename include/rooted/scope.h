@@ -33,7 +33,12 @@ namespace Rooted
 
     class Scope
     {
-    public:
         Celery::Str::External desc;
+
+    public:
+        void SetDesc(const Celery::Str::External &new_desc)
+        {
+            desc = new_desc;
+        }
     };
 }

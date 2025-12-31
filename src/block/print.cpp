@@ -33,7 +33,7 @@ Scope Block::BasePrint(
 )
 {
     Scope res;
-    res.desc = desc;
+    res.SetDesc(desc);
 
     // Print branch
     if (depth > 0)
