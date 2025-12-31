@@ -25,48 +25,15 @@
 
 namespace Rooted
 {
-    enum class ScopeType
-    {
-        Timed,
-        Simple
-    };
-
     enum class ScopeOrder
     {
         Body,
         Last
     };
 
-    class IScope
+    class Scope
     {
-    protected:
-        Celery::Str::External desc;
-
     public:
-        IScope() = default;
-
-        void Reprint() const
-        {
-            Celery::Io::Println(desc);
-        }
-
-        virtual ~IScope() = default;
+        Celery::Str::External desc;
     };
-
-    template <bool PrintTime>
-    class Scope;
-
-    template <>
-    class Scope<true> : public IScope
-    {
-        std::chrono::high_resolution_clock
-            ::time_point start;
-    };
-
-    template <>
-    class Scope<false> : public IScope
-    {};
-
-    using TimedScope = Scope<true>;
-    using SimpleScope = Scope<false>;
 }
