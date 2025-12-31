@@ -28,7 +28,7 @@ namespace Rooted
     struct IScope
     {
         int line;
-        short depth;
+        Celery::Trait::VeryLarge depth;
         Celery::Str::External desc;
     };
 
