@@ -24,13 +24,13 @@
 using namespace Rooted;
 using namespace Celery;
 
-Block Block::Nest() const
+Block Block::Nest()
 {
     Block b(
-        lines,
         depth + 1,
         draw_pipe
     );
-        draw_pipe[depth] = ScopeOrder::Body;
+
+    draw_pipe[depth] = ScopeOrder::Body;
     return b;
 }
