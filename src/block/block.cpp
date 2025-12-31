@@ -23,7 +23,7 @@
 
 using namespace Rooted;
 
-Block::Block(int &lines_ref, int depth_const) :
+Block::Block(int &lines_ref, const int depth_const) :
     lines(lines_ref),
     depth(depth_const)
 {}
