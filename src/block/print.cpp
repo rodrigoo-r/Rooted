@@ -27,14 +27,12 @@
 using namespace Rooted;
 using namespace std;
 
-template <ScopeType Type, ScopeOrder Order>
-Block::ConditionalScope<Type> Block::BasePrint(
+template <ScopeOrder Order>
+Scope Block::BasePrint(
     const Celery::Str::External &desc
 )
 {
-    using Result = ConditionalScope<Type>;
-
-    Result res;
+    Scope res;
     res.desc = desc;
 
     // Print branch
@@ -69,56 +67,24 @@ Block::ConditionalScope<Type> Block::BasePrint(
 }
 
 template <ScopeOrder Order>
-TimedScope Block::TimedPrint(const Celery::Str::External &desc)
+Scope Block::Print(const Celery::Str::External &desc)
 {
-    return BasePrint<
-        ScopeType::Timed,
-        Order
-    >(desc);
-}
-
-template <ScopeOrder Order>
-SimpleScope Block::Print(const Celery::Str::External &desc)
-{
-    return BasePrint<
-        ScopeType::Simple,
-        Order
-    >(desc);
+    return BasePrint<Order>(desc);
 }
 
 // Template instantiations
-template TimedScope Block::BasePrint<
-    ScopeType::Timed,
+template Scope Block::BasePrint<
     ScopeOrder::Body
 >(const Celery::Str::External &);
 
-template TimedScope Block::BasePrint<
-    ScopeType::Timed,
+template Scope Block::BasePrint<
     ScopeOrder::Last
 >(const Celery::Str::External &);
 
-template SimpleScope Block::BasePrint<
-    ScopeType::Simple,
-    ScopeOrder::Body
->(const Celery::Str::External &);
-
-template SimpleScope Block::BasePrint<
-    ScopeType::Simple,
-    ScopeOrder::Last
->(const Celery::Str::External &);
-
-template TimedScope Block::TimedPrint<ScopeOrder::Body>(
+template Scope Block::Print<ScopeOrder::Body>(
     const Celery::Str::External &
 );
 
-template TimedScope Block::TimedPrint<ScopeOrder::Last>(
-    const Celery::Str::External &
-);
-
-template SimpleScope Block::Print<ScopeOrder::Body>(
-    const Celery::Str::External &
-);
-
-template SimpleScope Block::Print<ScopeOrder::Last>(
+template Scope Block::Print<ScopeOrder::Last>(
     const Celery::Str::External &
 );
