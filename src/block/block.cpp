@@ -32,7 +32,7 @@ Block::Block(
     depth(depth_const)
 {
     // Ensure draw_pipe is deep enough
-    if (draw_pipe.Size() < depth)
+    if (depth > 0)
     {
         draw_pipe.Resize(depth);
     }
