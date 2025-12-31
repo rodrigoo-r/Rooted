@@ -25,9 +25,24 @@
 
 namespace Rooted
 {
-    template <bool ShowTime>
+    struct IScope
+    {
+        int line;
+        short depth;
+        Celery::Str::External desc;
+    };
+
+    template <bool PrintTime>
     struct Scope;
 
-    template <bool ShowTime>
-    Scope<ShowTime> Line(Celery::Str::External &desc);
+    template <>
+    struct Scope<true> : IScope
+    {
+        std::chrono::high_resolution_clock
+            ::time_point start;
+    };
+
+    template <>
+    struct Scope<false> : IScope
+    {};
 }
