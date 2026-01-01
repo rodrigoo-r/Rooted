@@ -28,12 +28,10 @@ using namespace Rooted;
 using namespace std;
 
 template <ScopeOrder Order>
-Scope Block::BasePrint(
-    const Celery::Str::External &desc
+void Block::BasePrint(
+    const PrintCollection &desc
 )
 {
-    Scope res{desc};
-
     // Print branch
     if (depth > 0)
     {
@@ -51,7 +49,11 @@ Scope Block::BasePrint(
             Celery::Io::Print("├── ");
     }
 
-    Celery::Io::Println(desc);
+    for (const auto &part : desc)
+    {
+        Celery::Io::Print(part);
+    }
+    Celery::Io::Println();
 
     // Update pipe state for this depth
     if (depth > 0)
@@ -61,29 +63,27 @@ Scope Block::BasePrint(
                 ScopeOrder::Body :
                 ScopeOrder::Last;
     }
-
-    return res;
 }
 
 template <ScopeOrder Order>
-Scope Block::Print(const Celery::Str::External &desc)
+void Block::Print(const PrintCollection &desc)
 {
-    return BasePrint<Order>(desc);
+    BasePrint<Order>(desc);
 }
 
 // Template instantiations
-template Scope Block::BasePrint<
+template void Block::BasePrint<
     ScopeOrder::Body
->(const Celery::Str::External &);
+>(const PrintCollection &);
 
-template Scope Block::BasePrint<
+template void Block::BasePrint<
     ScopeOrder::Last
->(const Celery::Str::External &);
+>(const PrintCollection &);
 
-template Scope Block::Print<ScopeOrder::Body>(
-    const Celery::Str::External &
+template void Block::Print<ScopeOrder::Body>(
+    const PrintCollection &
 );
 
-template Scope Block::Print<ScopeOrder::Last>(
-    const Celery::Str::External &
+template void Block::Print<ScopeOrder::Last>(
+    const PrintCollection &
 );
