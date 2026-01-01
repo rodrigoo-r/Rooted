@@ -32,8 +32,7 @@ Scope Block::BasePrint(
     const Celery::Str::External &desc
 )
 {
-    Scope res;
-    res.SetDesc(desc);
+    Scope res{desc};
 
     // Print branch
     if (depth > 0)

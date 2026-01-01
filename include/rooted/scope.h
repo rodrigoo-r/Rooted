@@ -31,14 +31,8 @@ namespace Rooted
         Last
     };
 
-    class Scope
+    struct Scope
     {
         Celery::Str::External desc;
-
-    public:
-        void SetDesc(const Celery::Str::External &new_desc)
-        {
-            desc = new_desc;
-        }
     };
 }
