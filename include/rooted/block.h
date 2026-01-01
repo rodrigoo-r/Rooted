@@ -31,12 +31,17 @@ namespace Rooted
 {
     class Block
     {
+    public:
+        using PrintCollection =
+            std::initializer_list<Celery::Str::External>;
+
+    protected:
         DrawPipe &draw_pipe;
         Celery::Trait::VeryLarge depth;
 
         template<ScopeOrder>
-        Scope BasePrint(
-            const Celery::Str::External &
+        void BasePrint(
+            const PrintCollection &
         );
 
     public:
@@ -46,16 +51,16 @@ namespace Rooted
         );
 
         template <ScopeOrder Order>
-        Scope Print(const Celery::Str::External &desc);
+        void Print(const PrintCollection &desc);
 
-        Scope Body(const Celery::Str::External &desc)
+        void Body(const PrintCollection &desc)
         {
-            return Print<ScopeOrder::Body>(desc);
+            Print<ScopeOrder::Body>(desc);
         }
 
-        Scope Last(const Celery::Str::External &desc)
+        void Last(const PrintCollection &desc)
         {
-            return Print<ScopeOrder::Last>(desc);
+            Print<ScopeOrder::Last>(desc);
         }
 
         [[nodiscard]] Block Nest();
