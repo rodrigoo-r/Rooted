@@ -1,20 +1,11 @@
 # ============================================================================ #
 # Source Files
 # ============================================================================ #
-set(ALL_FILES ${ALL_CPP})
+file(GLOB_RECURSE ROOTED_INTERNAL_ALL_CPP "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE ROOTED_INTERNAL_ALL_H   "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
+set(ROOTED_INTERNAL_ALL_FILES ${ROOTED_INTERNAL_ALL_CPP} ${ROOTED_INTERNAL_ALL_H})
 
-add_library(
-        Rooted
-        STATIC
-        include/rooted/block.h
-        include/rooted/draw_pipe.h
-        include/rooted/factory.h
-        include/rooted/scope.h
-        src/block/block.cpp
-        src/block/nest.cpp
-        src/block/print.cpp
-        src/factory/factory.cpp
-)
+add_library(Rooted STATIC ${ROOTED_INTERNAL_ALL_FILES})
 target_include_directories(Rooted
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
