@@ -21,18 +21,11 @@
 
 #pragma once
 
-#include <celery/string/external.h>
-
 namespace Rooted
 {
     enum class ScopeOrder
     {
         Body,
         Last
-    };
-
-    struct Scope
-    {
-        Celery::Str::External desc;
     };
 }
