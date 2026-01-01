@@ -31,9 +31,12 @@ Block::Block(
     draw_pipe(draw_pipe_ref),
     depth(depth_const)
 {
-    const auto remaining = draw_pipe.Size() - depth;
-    for (Trait::VeryLarge i = 0; i < remaining; ++i)
+    if (draw_pipe.Size() > depth)
     {
-        draw_pipe.PushBack(ScopeOrder::Body);
+        const auto remaining = draw_pipe.Size() - depth;
+        for (Trait::VeryLarge i = 0; i < remaining; ++i)
+        {
+            draw_pipe.PushBack(ScopeOrder::Body);
+        }
     }
 }
