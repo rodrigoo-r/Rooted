@@ -23,6 +23,7 @@
 
 #include <celery/array/vector.h>
 #include <celery/string/external.h>
+#include <celery/io/io.h>
 
 #include "draw_pipe.h"
 #include "scope.h"
@@ -31,18 +32,42 @@ namespace Rooted
 {
     class Block
     {
-    public:
-        using PrintCollection =
-            std::initializer_list<Celery::Str::External>;
-
     protected:
         DrawPipe &draw_pipe;
         Celery::Trait::VeryLarge depth;
 
-        template<ScopeOrder>
-        void BasePrint(
-            const PrintCollection &
-        );
+        template<ScopeOrder Order>
+        void BasePrint(auto &&...args)
+        {
+            // Print branch
+            if (depth > 0)
+            {
+                for (int i = 0; i < depth - 1; ++i)
+                {
+                    if (draw_pipe[i] == ScopeOrder::Last)
+                        Celery::Io::Print("│   ");
+                    else
+                        Celery::Io::Print("    ");
+                }
+
+                if constexpr (Order == ScopeOrder::Last)
+                    Celery::Io::Print("└── ");
+                else
+                    Celery::Io::Print("├── ");
+            }
+
+            Celery::Io::Print(std::forward<decltype(args)>(args)...);
+            Celery::Io::Println();
+
+            // Update pipe state for this depth
+            if (depth > 0)
+            {
+                draw_pipe[depth - 1] =
+                    Order == ScopeOrder::Last ?
+                        ScopeOrder::Body :
+                        ScopeOrder::Last;
+            }
+        }
 
     public:
         Block(
@@ -51,16 +76,19 @@ namespace Rooted
         );
 
         template <ScopeOrder Order>
-        void Print(const PrintCollection &desc);
-
-        void Body(const PrintCollection &desc)
+        void Print(auto &&...args)
         {
-            Print<ScopeOrder::Body>(desc);
+            BasePrint<Order>(std::forward<decltype(args)>(args)...);
         }
 
-        void Last(const PrintCollection &desc)
+        void Body(auto &&...args)
         {
-            Print<ScopeOrder::Last>(desc);
+            Print<ScopeOrder::Body>(std::forward<decltype(args)>(args)...);
+        }
+
+        void Last(auto &&...args)
+        {
+            Print<ScopeOrder::Last>(std::forward<decltype(args)>(args)...);
         }
 
         Block &operator=(const Block &other)
