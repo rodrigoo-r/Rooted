@@ -63,6 +63,17 @@ namespace Rooted
             Print<ScopeOrder::Last>(desc);
         }
 
+        Block &operator=(const Block &other)
+        {
+            if (this != &other)
+            {
+                // Copy depth and draw_pipe reference
+                this->depth = other.depth;
+                this->draw_pipe = other.draw_pipe;
+            }
+            return *this;
+        }
+
         [[nodiscard]] Block Nest();
 
         ~Block() = default;
