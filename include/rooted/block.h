@@ -21,9 +21,9 @@
 
 #pragma once
 
-#include <celery/array/vector.h>
-#include <celery/string/external.h>
-#include <celery/io/io.h>
+#include <Celery/Array/Vector.h>
+#include <Celery/String/External.h>
+#include <Celery/Io/Io.h>
 
 #include "draw_pipe.h"
 #include "scope.h"

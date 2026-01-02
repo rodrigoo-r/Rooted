@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <celery/array/vector.h>
+#include <Celery/Array/Vector.h>
 
 #include "scope.h"
 
