@@ -35,7 +35,7 @@ namespace Rooted
         Draw_Pipe &draw_pipe;
         size_t depth;
 
-        template<Scope_Order Order>
+        template<Scope_Order Order, bool Print_New_Line>
         void Base_Print(auto &&...args)
         {
             // Print branch
@@ -56,7 +56,11 @@ namespace Rooted
             }
 
             (std::cout << ... << args);
-            std::cout << std::endl;
+
+            if constexpr (Print_New_Line)
+            {
+                std::cout << std::endl;
+            }
 
             // Update pipe state for this depth
             if (depth > 0)
@@ -74,20 +78,30 @@ namespace Rooted
             Draw_Pipe &
         );
 
-        template <Scope_Order Order>
+        template <Scope_Order Order, bool Print_New_Line>
         void Print(auto &&...args)
         {
-            Base_Print<Order>(std::forward<decltype(args)>(args)...);
+            Base_Print<Order, Print_New_Line>(std::forward<decltype(args)>(args)...);
         }
 
         void Body(auto &&...args)
         {
-            Print<Scope_Order::Body>(std::forward<decltype(args)>(args)...);
+            Print<Scope_Order::Body, true>(std::forward<decltype(args)>(args)...);
         }
 
         void Last(auto &&...args)
         {
-            Print<Scope_Order::Last>(std::forward<decltype(args)>(args)...);
+            Print<Scope_Order::Last, true>(std::forward<decltype(args)>(args)...);
+        }
+
+        void Body_Simple(auto &&...args)
+        {
+            Print<Scope_Order::Body, false>(std::forward<decltype(args)>(args)...);
+        }
+
+        void Last_Simple(auto &&...args)
+        {
+            Print<Scope_Order::Last, false>(std::forward<decltype(args)>(args)...);
         }
 
         Block &operator=(const Block &other)
