@@ -26,11 +26,11 @@ namespace Rooted
 {
     class Factory
     {
-        DrawPipe draw_pipe;
+        Draw_Pipe draw_pipe;
 
     public:
         Factory() = default;
-        Block AddBlock();
+        Block Add_Block();
 
         ~Factory() = default;
     };

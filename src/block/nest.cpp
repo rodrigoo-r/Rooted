@@ -22,7 +22,6 @@
 #include "rooted/block.h"
 
 using namespace Rooted;
-using namespace Celery;
 
 Block Block::Nest()
 {
@@ -31,6 +30,6 @@ Block Block::Nest()
         draw_pipe
     );
 
-    draw_pipe[depth] = ScopeOrder::Body;
+    draw_pipe[depth] = Scope_Order::Body;
     return b;
 }

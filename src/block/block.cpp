@@ -22,21 +22,20 @@
 #include "rooted/block.h"
 
 using namespace Rooted;
-using namespace Celery;
 
 Block::Block(
-    const Trait::VeryLarge depth_const,
-    DrawPipe &draw_pipe_ref
+    const size_t depth_const,
+    Draw_Pipe &draw_pipe_ref
 ) :
     draw_pipe(draw_pipe_ref),
     depth(depth_const)
 {
-    if (draw_pipe.Size() > depth)
+    if (draw_pipe.size() > depth)
     {
-        const auto remaining = draw_pipe.Size() - depth;
-        for (Trait::VeryLarge i = 0; i < remaining; ++i)
+        const auto remaining = draw_pipe.size() - depth;
+        for (size_t i = 0; i < remaining; ++i)
         {
-            draw_pipe.PushBack(ScopeOrder::Body);
+            draw_pipe.push_back(Scope_Order::Body);
         }
     }
 }

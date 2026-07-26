@@ -21,9 +21,8 @@
 
 #pragma once
 
-#include <Celery/Array/Vector.h>
-#include <Celery/String/External.h>
-#include <Celery/Io/Io.h>
+#include <iostream>
+
 
 #include "draw_pipe.h"
 #include "scope.h"
@@ -33,62 +32,62 @@ namespace Rooted
     class Block
     {
     protected:
-        DrawPipe &draw_pipe;
-        Celery::Trait::VeryLarge depth;
+        Draw_Pipe &draw_pipe;
+        size_t depth;
 
-        template<ScopeOrder Order>
-        void BasePrint(auto &&...args)
+        template<Scope_Order Order>
+        void Base_Print(auto &&...args)
         {
             // Print branch
             if (depth > 0)
             {
                 for (int i = 0; i < depth - 1; ++i)
                 {
-                    if (draw_pipe[i] == ScopeOrder::Last)
-                        Celery::Io::Print("│   ");
+                    if (draw_pipe[i] == Scope_Order::Last)
+                        std::cout << "│   ";
                     else
-                        Celery::Io::Print("    ");
+                        std::cout << "    ";
                 }
 
-                if constexpr (Order == ScopeOrder::Last)
-                    Celery::Io::Print("└── ");
+                if constexpr (Order == Scope_Order::Last)
+                    std::cout << "└── ";
                 else
-                    Celery::Io::Print("├── ");
+                    std::cout << "├── ";
             }
 
-            Celery::Io::Print(std::forward<decltype(args)>(args)...);
-            Celery::Io::Println();
+            (std::cout << ... << args);
+            std::cout << std::endl;
 
             // Update pipe state for this depth
             if (depth > 0)
             {
                 draw_pipe[depth - 1] =
-                    Order == ScopeOrder::Last ?
-                        ScopeOrder::Body :
-                        ScopeOrder::Last;
+                    Order == Scope_Order::Last ?
+                        Scope_Order::Body :
+                        Scope_Order::Last;
             }
         }
 
     public:
         Block(
-            Celery::Trait::VeryLarge,
-            DrawPipe &
+            size_t,
+            Draw_Pipe &
         );
 
-        template <ScopeOrder Order>
+        template <Scope_Order Order>
         void Print(auto &&...args)
         {
-            BasePrint<Order>(std::forward<decltype(args)>(args)...);
+            Base_Print<Order>(std::forward<decltype(args)>(args)...);
         }
 
         void Body(auto &&...args)
         {
-            Print<ScopeOrder::Body>(std::forward<decltype(args)>(args)...);
+            Print<Scope_Order::Body>(std::forward<decltype(args)>(args)...);
         }
 
         void Last(auto &&...args)
         {
-            Print<ScopeOrder::Last>(std::forward<decltype(args)>(args)...);
+            Print<Scope_Order::Last>(std::forward<decltype(args)>(args)...);
         }
 
         Block &operator=(const Block &other)

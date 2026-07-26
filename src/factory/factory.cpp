@@ -23,9 +23,9 @@
 
 using namespace Rooted;
 
-Block Factory::AddBlock()
+Block Factory::Add_Block()
 {
     Block b(0, draw_pipe);
-    draw_pipe.PushBack(ScopeOrder::Body);
+    draw_pipe.push_back(Scope_Order::Body);
     return b;
 }

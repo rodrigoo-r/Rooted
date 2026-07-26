@@ -23,7 +23,7 @@
 
 namespace Rooted
 {
-    enum class ScopeOrder
+    enum class Scope_Order
     {
         Body,
         Last

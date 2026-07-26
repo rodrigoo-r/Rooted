@@ -21,11 +21,12 @@
 
 #pragma once
 
-#include <Celery/Array/Vector.h>
+#include <vector>
+
 
 #include "scope.h"
 
 namespace Rooted
 {
-    using DrawPipe = Celery::Array::Vector<ScopeOrder>;
+    using Draw_Pipe = std::vector<Scope_Order>;
 }
