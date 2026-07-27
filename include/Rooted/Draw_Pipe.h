@@ -19,13 +19,14 @@
 // Created by rodrigo on 12/31/25.
 //
 
-#include "rooted/factory.h"
+#pragma once
 
-using namespace Rooted;
+#include <vector>
 
-Block Factory::Add_Block()
+
+#include "Scope.h"
+
+namespace Rooted
 {
-    Block b(0, draw_pipe);
-    draw_pipe.push_back(Scope_Order::Body);
-    return b;
+    using Draw_Pipe = std::vector<Scope_Order>;
 }

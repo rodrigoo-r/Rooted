@@ -20,17 +20,31 @@
 //
 
 #pragma once
-#include "block.h"
+#include "Block.h"
 
 namespace Rooted
 {
+    template <typename Stream>
     class Factory
     {
         Draw_Pipe draw_pipe;
+        Stream &stream;
 
     public:
-        Factory() = default;
-        Block Add_Block();
+        Factory() :
+            stream(std::cout)
+        {}
+
+        Factory(Stream &s) :
+            stream(s)
+        {}
+
+        Block<Stream> Add_Block()
+        {
+            Block<Stream> b(0, draw_pipe, stream);
+            draw_pipe.push_back(Scope_Order::Body);
+            return b;
+        }
 
         ~Factory() = default;
     };

@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 4.1)
 project(Rooted)
 
-set(CMAKE_CXX_STANDARD 20)
+add_library(Rooted INTERFACE)
+add_library(Rooted::Rooted ALIAS Rooted)
 
-include(cmake/source.cmake)
+target_include_directories(Rooted
+        INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+)
+
+target_compile_features(Rooted
+        INTERFACE cxx_std_20
+)

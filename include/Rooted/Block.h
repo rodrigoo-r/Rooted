@@ -24,16 +24,18 @@
 #include <iostream>
 
 
-#include "draw_pipe.h"
-#include "scope.h"
+#include "Draw_Pipe.h"
+#include "Scope.h"
 
 namespace Rooted
 {
+    template <typename Stream>
     class Block
     {
     protected:
         Draw_Pipe &draw_pipe;
         size_t depth;
+        Stream stream;
 
         template<Scope_Order Order, bool Print_New_Line>
         void Base_Print(auto &&...args)
@@ -74,9 +76,23 @@ namespace Rooted
 
     public:
         Block(
-            size_t,
-            Draw_Pipe &
-        );
+            const size_t depth_const,
+            Draw_Pipe &draw_pipe_ref,
+            Stream &stream
+        ) :
+            draw_pipe(draw_pipe_ref),
+            depth(depth_const),
+            stream(stream)
+        {
+            if (draw_pipe.size() > depth)
+            {
+                const auto remaining = draw_pipe.size() - depth;
+                for (size_t i = 0; i < remaining; ++i)
+                {
+                    draw_pipe.push_back(Scope_Order::Body);
+                }
+            }
+        }
 
         template <Scope_Order Order, bool Print_New_Line>
         void Print(auto &&...args)
@@ -115,7 +131,17 @@ namespace Rooted
             return *this;
         }
 
-        [[nodiscard]] Block Nest();
+        [[nodiscard]] Block Nest()
+        {
+            Block b(
+                depth + 1,
+                draw_pipe,
+                stream
+            );
+
+            draw_pipe[depth] = Scope_Order::Body;
+            return b;
+        }
 
         ~Block() = default;
     };

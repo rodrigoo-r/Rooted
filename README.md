@@ -37,7 +37,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     Rooted
-    GIT_REPOSITORY https://github.com/zelix-lang/rooted.git
+    GIT_REPOSITORY https://github.com/zelix-lang/Rooted.git
     GIT_TAG master
 )
 
