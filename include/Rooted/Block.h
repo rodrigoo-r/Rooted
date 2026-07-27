@@ -46,22 +46,22 @@ namespace Rooted
                 for (int i = 0; i < depth - 1; ++i)
                 {
                     if (draw_pipe[i] == Scope_Order::Last)
-                        std::cout << "│   ";
+                        stream << "│   ";
                     else
-                        std::cout << "    ";
+                        stream << "    ";
                 }
 
                 if constexpr (Order == Scope_Order::Last)
-                    std::cout << "└── ";
+                    stream << "└── ";
                 else
-                    std::cout << "├── ";
+                    stream << "├── ";
             }
 
-            (std::cout << ... << args);
+            (stream << ... << args);
 
             if constexpr (Print_New_Line)
             {
-                std::cout << std::endl;
+                stream << std::endl;
             }
 
             // Update pipe state for this depth
