@@ -24,7 +24,7 @@
 #include <vector>
 
 
-#include "Scope.h"
+#include "Rooted/Scope.h"
 
 namespace Rooted
 {
