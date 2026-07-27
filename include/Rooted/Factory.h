@@ -20,11 +20,12 @@
 //
 
 #pragma once
+#include <iostream>
 #include "Block.h"
 
 namespace Rooted
 {
-    template <typename Stream>
+    template <typename Stream = std::ostream>
     class Factory
     {
         Draw_Pipe draw_pipe;
