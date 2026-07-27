@@ -35,7 +35,7 @@ namespace Rooted
     protected:
         Draw_Pipe &draw_pipe;
         size_t depth;
-        Stream stream;
+        Stream &stream;
 
         template<Scope_Order Order, bool Print_New_Line>
         void Base_Print(auto &&...args)
